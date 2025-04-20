@@ -28,6 +28,7 @@ const Game: React.FC = () => {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
+  const [elapsedTime, setElapsedTime] = useState<number>(0);
 
   // Ref for the restart button
   const restartButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -50,6 +51,10 @@ const Game: React.FC = () => {
   useEffect(() => {
     const gameLoop = (currentTime: number) => {
       animationFrameRef.current = requestAnimationFrame(gameLoop);
+
+      if (startTime && !gameOverRef.current) {
+        setElapsedTime((currentTime - startTime) / 1000);
+      }
 
       if (gameOverRef.current) return;
 
@@ -176,7 +181,7 @@ const Game: React.FC = () => {
 
   return (
     <div>
-      <p>Score: {score}</p>
+      <p>Score: {score} | Time: {elapsedTime.toFixed(1)}s</p>
       {gameOver && (
         <p>
           You found all the eggs! 🎉
