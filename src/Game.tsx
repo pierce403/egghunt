@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import Dpad from './Dpad';
 
 type Position = { x: number; y: number; };
 
@@ -27,6 +28,9 @@ const Game: React.FC = () => {
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [startTime, setStartTime] = useState<number | null>(null);
   const [duration, setDuration] = useState<number | null>(null);
+
+  // Ref for the restart button
+  const restartButtonRef = useRef<HTMLButtonElement | null>(null);
 
   // Refs for continuous movement and state synchronization
   const bunnyRef = useRef<Position>(bunny);
@@ -91,7 +95,10 @@ const Game: React.FC = () => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
         // Only set the key, don't trigger movement directly
         // Allow changing direction even if a key is already held
-        pressedKeyRef.current = e.key;
+        if (pressedKeyRef.current !== e.key) {
+          pressedKeyRef.current = e.key;
+          lastMoveTimeRef.current = 0; // Allow immediate move on direction change
+        }
       }
     };
 
@@ -125,12 +132,28 @@ const Game: React.FC = () => {
   useEffect(() => {
     if (score === NUM_EGGS) {
       setGameOver(true);
+    }
+  }, [score]);
+
+  // Effect to calculate duration and focus button when game ends
+  useEffect(() => {
+    if (gameOver) {
       if (startTime) {
         const endTime = Date.now();
         setDuration((endTime - startTime) / 1000); // Duration in seconds
       }
+      // Focus the restart button after a short delay to ensure it's rendered
+      setTimeout(() => restartButtonRef.current?.focus(), 0);
     }
-  }, [score, startTime]);
+  }, [gameOver, startTime]);
+
+  // Handler for Dpad interaction
+  const handleDpadInteraction = (direction: string | null) => {
+    if (pressedKeyRef.current !== direction) {
+      pressedKeyRef.current = direction;
+      lastMoveTimeRef.current = 0; // Allow immediate move on direction change
+    }
+  };
 
   const boardStyle: React.CSSProperties = {
     display: 'grid',
@@ -174,10 +197,11 @@ const Game: React.FC = () => {
         )}
       </div>
       {gameOver && (
-        <button onClick={() => window.location.reload()}>
+        <button ref={restartButtonRef} onClick={() => window.location.reload()}>
           Restart
         </button>
       )}
+      {!gameOver && <Dpad onInteraction={handleDpadInteraction} />}
     </div>
   );
 };
