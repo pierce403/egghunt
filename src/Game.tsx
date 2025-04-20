@@ -37,6 +37,7 @@ const Game: React.FC = () => {
   const bunnyRef = useRef<Position>(bunny);
   const eggsRef = useRef<Position[]>(eggs);
   const gameOverRef = useRef<boolean>(gameOver);
+  const startTimeRef = useRef<number | null>(startTime);
   const pressedKeyRef = useRef<string | null>(null);
   const MOVE_INTERVAL_MS = 100;
   const lastMoveTimeRef = useRef<number>(0);
@@ -46,14 +47,15 @@ const Game: React.FC = () => {
   useEffect(() => { bunnyRef.current = bunny; }, [bunny]);
   useEffect(() => { eggsRef.current = eggs; }, [eggs]);
   useEffect(() => { gameOverRef.current = gameOver; }, [gameOver]);
+  useEffect(() => { startTimeRef.current = startTime; }, [startTime]);
 
   // Continuous movement: start moving on keydown, stop on keyup
   useEffect(() => {
     const gameLoop = (currentTime: number) => {
       animationFrameRef.current = requestAnimationFrame(gameLoop);
 
-      if (startTime && !gameOverRef.current) {
-        setElapsedTime((currentTime - startTime) / 1000);
+      if (startTimeRef.current && !gameOverRef.current) {
+        setElapsedTime((currentTime - startTimeRef.current) / 1000);
       }
 
       if (gameOverRef.current) return;
