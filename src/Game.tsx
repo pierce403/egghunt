@@ -55,7 +55,7 @@ const Game: React.FC = () => {
       animationFrameRef.current = requestAnimationFrame(gameLoop);
 
       if (startTimeRef.current !== null && startTimeRef.current > 0 && !gameOverRef.current) {
-        setElapsedTime((currentTime - startTimeRef.current) / 1000);
+        setElapsedTime((Date.now() - startTimeRef.current) / 1000);
       }
 
       if (gameOverRef.current) return;
