@@ -2,8 +2,10 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
+test('renders the egg hunt board', () => {
   render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Bunny Egg Hunt' })).toBeInTheDocument();
+  expect(screen.getByText(/Score: 0/)).toBeInTheDocument();
+  expect(screen.getByText('🐰')).toBeInTheDocument();
+  expect(screen.getAllByText('🥚')).toHaveLength(5);
 });
