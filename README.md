@@ -11,7 +11,7 @@ npm ci
 npm start
 ```
 
-The development server runs on localhost. The production build uses the GitHub Pages base path `/egghunt/` and writes to `build/`:
+The development server runs on localhost. The production build uses relative asset paths so it works at the `egghunt.pro` custom-domain root and the GitHub Pages project path. It writes to `build/`:
 
 ```sh
 npm test
