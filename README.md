@@ -20,3 +20,11 @@ npm run preview
 ```
 
 The main-branch workflow publishes `build/` to GitHub Pages. Pull requests run install, tests, build, and an npm audit without publishing.
+
+## Cloudflare publishing
+
+Native Cloudflare Git builds publish `main`; credentials stay in Cloudflare and
+previews are disabled. The existing Vite generator supplies `build`, with
+a no-store revision marker and terminal404 handling. Validate with `npm ci`,
+the existing tests, and `npm run check:deploy`. `npm run deploy` is the native
+deploy command. GitHub Pages and source history remain recovery sources.

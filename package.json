@@ -18,9 +18,11 @@
   },
   "scripts": {
     "start": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
+    "build": "tsc --noEmit && vite build && node scripts/cloudflare-assets.mjs",
     "test": "vitest run",
-    "preview": "vite preview --host 127.0.0.1"
+    "preview": "vite preview --host 127.0.0.1",
+    "deploy": "wrangler deploy",
+    "check:deploy": "npm run build && wrangler deploy --dry-run"
   },
   "devDependencies": {
     "@vitejs/plugin-legacy": "7.2.1",
@@ -28,7 +30,8 @@
     "jsdom": "27.0.0",
     "terser": "5.51.2",
     "vite": "7.3.7",
-    "vitest": "4.1.11"
+    "vitest": "4.1.11",
+    "wrangler": "4.149.0"
   },
   "browserslist": {
     "production": [
