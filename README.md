@@ -34,3 +34,8 @@ route, managed TLS, normal HTTPS, generated asset comparisons, real404 and
 HTTP path/query upgrades, live browser rendering and received visitor/request
 metrics. GitHub Pages is retained for recovery. Application code and local
 persistence were unchanged; existing user save data was not reset.
+
+## License
+
+Original project code is licensed under the [Apache License 2.0](LICENSE).
+Third-party dependencies and React/Create React App assets retain their respective licenses and notices.
